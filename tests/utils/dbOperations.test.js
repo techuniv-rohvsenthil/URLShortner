@@ -16,3 +16,15 @@ describe('the storeURLToDB function,', () => {
 	});
     
 });
+
+describe('the getLongURLFromDB function,', () => {
+
+	it('should get the longURL from the DB', async () => {
+		const mockInput = 'shortPath';
+		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
+		await dbOperations.getLongURLFromDB(mockInput);
+		expect(mockRetrieve).toHaveBeenCalled(); 
+		mockRetrieve.mockRestore();
+	});
+    
+});

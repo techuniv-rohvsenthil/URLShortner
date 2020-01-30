@@ -17,7 +17,7 @@ const getSite = async (request, h) => {
 	try{
 		const shortPath = request.params.shortPath;
 		const longURL = await dbOperations.getLongURLFromDB(shortPath);
-		return h.response.redirect(longURL).code(200);
+		return h.response(longURL).code(200);
 	}
 	catch(err){
 		return h.response(err.message).code(500);
