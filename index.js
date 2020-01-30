@@ -6,6 +6,7 @@ const server = Hapi.Server({
 	port: 8080
 });
 
+server.route(routes);
 server.start();
 
 console.log('Server started');

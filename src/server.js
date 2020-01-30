@@ -19,6 +19,8 @@ const start = async () => {
 	return server;
 };
 
+server.route(routes);
+
 console.log('Server started');
 
 module.exports = {
