@@ -3,7 +3,7 @@ const dbOperations = require('../../src/utils/dbOperations');
 
 describe('the shortenURL handler function,', () => {  
 
-	it('should call h.response with success message when /notes is hit with POST', async (done) => {
+	it('should call h.response with success message when /shortens is hit with POST', async (done) => {
 		const mockRequest = {
 			payload: 'longURL'
 		};
@@ -24,7 +24,7 @@ describe('the shortenURL handler function,', () => {
 		done();
 	});
 
-	it('should return statusCode: 500 adding new note fails', async (done) => {
+	it('should return statusCode: 500 DB storage of URL fails', async (done) => {
 		const mockRequest = {
 			payload: 'longURL'
 		};
