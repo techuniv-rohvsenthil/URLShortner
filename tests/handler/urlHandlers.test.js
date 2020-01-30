@@ -57,18 +57,17 @@ describe('the getSite handler function,', () => {
 		};
 		const mockCode = jest.fn();
 		const mockH = {
-			response: jest.fn(() => {
-				return{
-					code: mockCode
-				};    
+			redirect: jest.fn(),
+			response: jest.fn(() =>{
+				return {code: mockCode};
 			})
 		};  
 		const mockGetLongURLFromDBResponse = [{longURL: 'longURL'}];
 		const mockGetLongURLFromDB = jest.spyOn(dbOperations, 'getLongURLFromDB');
 		mockGetLongURLFromDB.mockResolvedValue(mockGetLongURLFromDBResponse);
 		await getSite(mockRequest, mockH);
-		expect(mockH.response).toHaveBeenCalledWith(mockGetLongURLFromDBResponse[0].longURL);
-		expect(mockCode).toHaveBeenCalledWith(200);
+		expect(mockH.redirect).toHaveBeenCalled();
+		//expect(mockCode).toHaveBeenCalledWith(200);
 		done();
 	});
 
