@@ -16,8 +16,15 @@ const shortenURL = async (request, h) => {
 const getSite = async (request, h) => {
 	try{
 		const shortPath = request.params.shortPath;
-		const longURL = await dbOperations.getLongURLFromDB(shortPath);
-		return h.response(longURL).code(200);
+		const data = await dbOperations.getLongURLFromDB(shortPath);
+		if(!data[0]){
+			return h.response('Not Found').code(404);
+		}
+		else{
+			const longURL = data[0].longURL;
+			return h.response(longURL).code(200);
+		}
+		
 	}
 	catch(err){
 		return h.response(err.message).code(500);

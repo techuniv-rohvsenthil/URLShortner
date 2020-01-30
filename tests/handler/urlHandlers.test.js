@@ -52,32 +52,30 @@ describe('the getSite handler function,', () => {
 	it('should call h.response with success message when /{shortPath} is hit with GET', async (done) => {
 		const mockRequest = {
 			params: {
-				shotPath: 'shortPath'
+				shortPath: 'shortPath'
 			}
 		};
 		const mockCode = jest.fn();
 		const mockH = {
-			response: {
-				redirect: jest.fn(() => {
-					return{
-						code: mockCode
-					};    
-				})
-			}
+			response: jest.fn(() => {
+				return{
+					code: mockCode
+				};    
+			})
 		};  
-		const mockGetLongURLFromDBResponse = 'longURL';
+		const mockGetLongURLFromDBResponse = [{longURL: 'longURL'}];
 		const mockGetLongURLFromDB = jest.spyOn(dbOperations, 'getLongURLFromDB');
 		mockGetLongURLFromDB.mockResolvedValue(mockGetLongURLFromDBResponse);
 		await getSite(mockRequest, mockH);
-		expect(mockH.response.redirect).toHaveBeenCalledWith(mockGetLongURLFromDBResponse);
+		expect(mockH.response).toHaveBeenCalledWith(mockGetLongURLFromDBResponse[0].longURL);
 		expect(mockCode).toHaveBeenCalledWith(200);
 		done();
 	});
 
-	it('should return statusCode: 500 retrieving URL fails', async (done) => {
+	it('should return statusCode: 500 if retrieving URL fails', async (done) => {
 		const mockRequest = {
 			params: {
-				shotPath: 'shortPath'
+				shortPath: 'shortPath'
 			}
 		};
 		const mockCode = jest.fn();
@@ -93,6 +91,29 @@ describe('the getSite handler function,', () => {
 		await getSite(mockRequest, mockH);
 		expect(mockH.response).toHaveBeenCalledWith('Failed to retrieve URL');
 		expect(mockCode).toHaveBeenCalledWith(500);
+		mockGetLongURLFromDB.mockRestore();
+		done();
+	});
+
+	it('should return statusCode: 404 if URL doesnt exist', async (done) => {
+		const mockRequest = {
+			params: {
+				shotPath: 'shortPath'
+			}
+		};
+		const mockCode = jest.fn();
+		const mockH = {
+			response: jest.fn(() => {
+				return{
+					code: mockCode
+				};
+			})
+		};  
+		const mockGetLongURLFromDB = jest.spyOn(dbOperations, 'getLongURLFromDB');
+		mockGetLongURLFromDB.mockResolvedValue([]);
+		await getSite(mockRequest, mockH);
+		expect(mockH.response).toHaveBeenCalledWith('Not Found');
+		expect(mockCode).toHaveBeenCalledWith(404);
 		mockGetLongURLFromDB.mockRestore();
 		done();
 	});
