@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			primaryKey: true
 		},
-		shortURL: DataTypes.STRING
+		shortURL: DataTypes.STRING,
+		createdTime: DataTypes.STRING
 	}, {});
 	urlmapping.associate = function(models) {
 		// associations can be defined here

@@ -26,7 +26,7 @@ describe('the server,', () => {
 		expect(response.statusCode).toBe(200);
 	});
     
-	it ('should return a statusCode 200 when /{shortPath} is hit with GET ', async () => {
+	it ('should return a statusCode 302 when /{shortPath} is hit with GET ', async () => {
 		const options = {
 			method: 'GET',
 			url: '/shortPath',
@@ -35,7 +35,7 @@ describe('the server,', () => {
 		const mockGetLongURLFromDBResponse = [{longURL: 'longURL'}];
 		mockstoreURLToDB.mockResolvedValue(mockGetLongURLFromDBResponse[0].longURL);
 		const response = await server.inject(options);
-		expect(response.statusCode).toBe(200);
+		expect(response.statusCode).toBe(302);
 	});
 
 });

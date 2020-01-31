@@ -9,6 +9,9 @@ module.exports = {
 			shortURL: {
 				type: Sequelize.STRING
 			},
+			createdTime: {
+				type: Sequelize.STRING
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

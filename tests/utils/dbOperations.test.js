@@ -8,7 +8,8 @@ describe('the storeURLToDB function,', () => {
 		mockInsert.mockResolvedValue();
 		const mockValues = {
 			longURL: 'longURL',
-			shortURL: 'shortURL'
+			shortURL: 'shortURL',
+			createdTime: Date.now()
 		};
 		await dbOperations.storeURLToDB(mockValues.longURL, mockValues.shortURL);
 		expect(mockInsert).toHaveBeenCalledWith(mockValues); 
@@ -19,11 +20,25 @@ describe('the storeURLToDB function,', () => {
 
 describe('the getLongURLFromDB function,', () => {
 
-	it('should get the longURL from the DB', async () => {
+	it('should get the longURL from the DB (< 30 min)', async () => {
 		const mockInput = 'shortPath';
+		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now()}];
 		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
-		await dbOperations.getLongURLFromDB(mockInput);
+		mockRetrieve.mockResolvedValue(mockRetrieveResponse);
+		const res = await dbOperations.getLongURLFromDB(mockInput);
 		expect(mockRetrieve).toHaveBeenCalled(); 
+		expect(res).toBe(mockRetrieveResponse);
+		mockRetrieve.mockRestore();
+	});
+
+	it('should get the longURL from the DB (> 30 min)', async () => {
+		const mockInput = 'shortPath';
+		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now() + 1580440368398}];
+		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
+		mockRetrieve.mockResolvedValue(mockRetrieveResponse);
+		const res = await dbOperations.getLongURLFromDB(mockInput);
+		expect(mockRetrieve).toHaveBeenCalled(); 
+		expect(res).toStrictEqual([]);
 		mockRetrieve.mockRestore();
 	});
     
