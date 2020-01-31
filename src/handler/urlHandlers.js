@@ -25,7 +25,7 @@ const getSite = async (request, h) => {
 		}
 		else{
 			const redirectURL = data[0].longURL; //longURL in the form of http://www.sitename.com
-			return h.redirect(redirectURL); 
+			return h.redirect(redirectURL).code(302); 
 		}
 		
 	}

@@ -13,6 +13,7 @@ const getLongURLFromDB = async (shortPath) => {
 	}
 	else{
 		//delete particular row
+		await db.urlmapping.destroy({where: {shortURL: shortPath}});
 		return ['gone'];
 	}
 };

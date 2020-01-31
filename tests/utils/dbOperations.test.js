@@ -36,8 +36,11 @@ describe('the getLongURLFromDB function,', () => {
 		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now() + 1580440368398}];
 		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
 		mockRetrieve.mockResolvedValue(mockRetrieveResponse);
+		const mockDelete = jest.spyOn(db.urlmapping, 'destroy');
+		mockDelete.mockResolvedValue();
 		const res = await dbOperations.getLongURLFromDB(mockInput);
 		expect(mockRetrieve).toHaveBeenCalled(); 
+		expect(mockDelete).toHaveBeenCalled();
 		expect(res).toStrictEqual(['gone']);
 		mockRetrieve.mockRestore();
 	});
