@@ -33,7 +33,7 @@ describe('the getLongURLFromDB function,', () => {
 
 	it('should consider longURL invalid from the DB if (> 30 min)', async () => {
 		const mockInput = 'shortPath';
-		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now() + 1580440368398}];
+		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now() - 1580440368398}];
 		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
 		mockRetrieve.mockResolvedValue(mockRetrieveResponse);
 		const mockDelete = jest.spyOn(db.urlmapping, 'destroy');
