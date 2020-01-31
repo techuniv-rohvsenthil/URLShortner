@@ -3,7 +3,7 @@ const dbOperations = require('../../src/utils/dbOperations');
 
 describe('the shortenURL handler function,', () => {  
 
-	it('should call h.response with success message when /shortens is hit with POST', async (done) => {
+	it('should call h.response with success message when /shortens is hit with POST', async () => {
 		const mockRequest = {
 			payload: 'longURL'
 		};
@@ -21,10 +21,10 @@ describe('the shortenURL handler function,', () => {
 		expect(mockStoreURLToDB).toHaveBeenCalled();
 		expect(mockH.response).toHaveBeenCalled();
 		expect(mockCode).toHaveBeenCalledWith(200);
-		done();
+		mockStoreURLToDB.mockRestore();
 	});
 
-	it('should return statusCode: 500 DB storage of URL fails', async (done) => {
+	it('should return statusCode: 500 DB storage of URL fails', async () => {
 		const mockRequest = {
 			payload: 'longURL'
 		};
@@ -42,14 +42,13 @@ describe('the shortenURL handler function,', () => {
 		expect(mockH.response).toHaveBeenCalledWith('Failed to store URL');
 		expect(mockCode).toHaveBeenCalledWith(500);
 		mockStoreURLToDB.mockRestore();
-		done();
 	});
 
 });
 
 describe('the getSite handler function,', () => {  
 
-	it('should call h.response with success message when /{shortPath} is hit with GET', async (done) => {
+	it('should call h.response with success message when /{shortPath} is hit with GET', async () => {
 		const mockRequest = {
 			params: {
 				shortPath: 'shortPath'
@@ -67,10 +66,10 @@ describe('the getSite handler function,', () => {
 		await getSite(mockRequest, mockH);
 		expect(mockH.redirect).toHaveBeenCalledWith(mockGetLongURLFromDBResponse[0].longURL);
 		expect(mockCode).toHaveBeenCalledWith(302);
-		done();
+		mockGetLongURLFromDB.mockRestore();
 	});
 
-	it('should return statusCode: 500 if retrieving URL fails', async (done) => {
+	it('should return statusCode: 500 if retrieving URL fails', async () => {
 		const mockRequest = {
 			params: {
 				shortPath: 'shortPath'
@@ -90,10 +89,9 @@ describe('the getSite handler function,', () => {
 		expect(mockH.response).toHaveBeenCalledWith('Failed to retrieve URL');
 		expect(mockCode).toHaveBeenCalledWith(500);
 		mockGetLongURLFromDB.mockRestore();
-		done();
 	});
 
-	it('should return statusCode: 404 if URL doesnt exist', async (done) => {
+	it('should return statusCode: 404 if URL doesnt exist', async () => {
 		const mockRequest = {
 			params: {
 				shotPath: 'shortPath'
@@ -113,10 +111,9 @@ describe('the getSite handler function,', () => {
 		expect(mockH.response).toHaveBeenCalledWith('Not Found');
 		expect(mockCode).toHaveBeenCalledWith(404);
 		mockGetLongURLFromDB.mockRestore();
-		done();
 	});
 
-	it('should return statusCode: 410 if URL has timed out', async (done) => {
+	it('should return statusCode: 410 if URL has timed out', async () => {
 		const mockRequest = {
 			params: {
 				shotPath: 'shortPath'
@@ -136,7 +133,6 @@ describe('the getSite handler function,', () => {
 		expect(mockH.response).toHaveBeenCalledWith('Gone');
 		expect(mockCode).toHaveBeenCalledWith(410);
 		mockGetLongURLFromDB.mockRestore();
-		done();
 	});
 
 });

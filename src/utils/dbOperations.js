@@ -8,7 +8,8 @@ const getLongURLFromDB = async (shortPath) => {
 	const data = await db.urlmapping.findAll({where: {shortURL: shortPath}});
 	const createdTime = data[0].createdTime;
 	const currentTime = Date.now();
-	if(createdTime - currentTime < 1800000){
+	console.log(createdTime - currentTime);
+	if(currentTime - createdTime < 1800000){
 		return data;
 	}
 	else{

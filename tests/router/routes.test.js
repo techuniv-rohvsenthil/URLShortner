@@ -14,17 +14,18 @@ describe('the server,', () => {
 		await server.stop();
 	});
     
-	xit ('should return a statusCode 200 when /shortens is hit with POST ', async () => {
-		const options = {
-			method: 'POST',
-			url: '/shortens',
-			payload: 'longURL'
-		};
-		const mockstoreURLToDB = jest.spyOn(dbOperations, 'storeURLToDB');
-		mockstoreURLToDB.mockResolvedValue();
-		const response = await server.inject(options);
-		expect(response.statusCode).toBe(200);
-	});
+	// xit ('should return a statusCode 200 when /shortens is hit with POST ', async () => {
+	// 	const options = {
+	// 		method: 'POST',
+	// 		url: '/shortens',
+	// 		payload: 'longURL'
+	// 	};
+	// 	const mockstoreURLToDB = jest.spyOn(dbOperations, 'storeURLToDB');
+	// 	mockstoreURLToDB.mockResolvedValue();
+	// 	const response = await server.inject(options);
+	// 	expect(response.statusCode).toBe(200);
+	// 	mockstoreURLToDB.mockRestore();
+	// });
     
 	it ('should return a statusCode 302 when /{shortPath} is hit with GET ', async () => {
 		const options = {
