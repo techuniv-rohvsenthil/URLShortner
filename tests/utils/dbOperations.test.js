@@ -31,14 +31,14 @@ describe('the getLongURLFromDB function,', () => {
 		mockRetrieve.mockRestore();
 	});
 
-	it('should get the longURL from the DB (> 30 min)', async () => {
+	it('should consider longURL invalid from the DB if (> 30 min)', async () => {
 		const mockInput = 'shortPath';
 		const mockRetrieveResponse = [{longURL: 'longURL', createdTime: Date.now() + 1580440368398}];
 		const mockRetrieve = jest.spyOn(db.urlmapping, 'findAll');
 		mockRetrieve.mockResolvedValue(mockRetrieveResponse);
 		const res = await dbOperations.getLongURLFromDB(mockInput);
 		expect(mockRetrieve).toHaveBeenCalled(); 
-		expect(res).toStrictEqual([]);
+		expect(res).toStrictEqual(['gone']);
 		mockRetrieve.mockRestore();
 	});
     

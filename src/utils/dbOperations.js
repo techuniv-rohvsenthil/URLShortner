@@ -12,7 +12,8 @@ const getLongURLFromDB = async (shortPath) => {
 		return data;
 	}
 	else{
-		return [];
+		//delete particular row
+		return ['gone'];
 	}
 };
 

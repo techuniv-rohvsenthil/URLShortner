@@ -117,4 +117,27 @@ describe('the getSite handler function,', () => {
 		done();
 	});
 
+	it('should return statusCode: 410 if URL has timed out', async (done) => {
+		const mockRequest = {
+			params: {
+				shotPath: 'shortPath'
+			}
+		};
+		const mockCode = jest.fn();
+		const mockH = {
+			response: jest.fn(() => {
+				return{
+					code: mockCode
+				};
+			})
+		};  
+		const mockGetLongURLFromDB = jest.spyOn(dbOperations, 'getLongURLFromDB');
+		mockGetLongURLFromDB.mockResolvedValue(['gone']);
+		await getSite(mockRequest, mockH);
+		expect(mockH.response).toHaveBeenCalledWith('Gone');
+		expect(mockCode).toHaveBeenCalledWith(410);
+		mockGetLongURLFromDB.mockRestore();
+		done();
+	});
+
 });

@@ -20,6 +20,9 @@ const getSite = async (request, h) => {
 		if(!data[0]){
 			return h.response('Not Found').code(404);
 		}
+		else if(data[0] == 'gone'){
+			return h.response('Gone').code(410);
+		}
 		else{
 			const redirectURL = data[0].longURL; //longURL in the form of http://www.sitename.com
 			return h.redirect(redirectURL); 
