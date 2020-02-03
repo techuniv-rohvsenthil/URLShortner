@@ -1,29 +1,14 @@
 const routes = require('./router/routes.js');
 const Hapi = require('@hapi/hapi');
 
-const server = Hapi.Server({
-	host: 'localhost',
-	port: 8080
-});
-
-const init = async () => {
-
-	await server.initialize();
+const createServer = async () => {
+	const server = Hapi.Server({
+		host: 'localhost',
+		port: 8080,
+	});
+	server.route(routes);
+	//await server.validator(Joi);
 	return server;
 };
 
-const start = async () => {
-
-	await server.start();
-	console.log(`Server running at: ${server.info.uri}`);
-	return server;
-};
-
-server.route(routes);
-
-console.log('Server started');
-
-module.exports = {
-	init,
-	start
-};
+module.exports = createServer;

@@ -1,4 +1,4 @@
-const {init} = require('../../src/server');
+const createServer = require('../../src/server');
 const dbOperations = require('../../src/utils/dbOperations');
 
 
@@ -7,7 +7,9 @@ describe('the server,', () => {
 	let server;
 
 	beforeEach(async () => {
-		server = await init();
+		server = await createServer();
+		await server.initialize();
+		return server;
 	});
 
 	afterEach(async () => {
