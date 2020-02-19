@@ -4,7 +4,9 @@
   "description": "Evaluation",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "migrate": "sequelize db:migrate",
+    "createdb": "sequelize db:create"
   },
   "keywords": [
     "evaluation"
