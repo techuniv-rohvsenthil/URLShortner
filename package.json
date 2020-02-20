@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "migrate": "sequelize db:migrate",
-    "createdb": "sequelize db:create"
+    "createdb": "sequelize db:create",
+    "start": "node index.js"
   },
   "keywords": [
     "evaluation"
